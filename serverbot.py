@@ -5,12 +5,7 @@ from discord import app_commands
 
 import json
 import os
-import re
-import time
 import aiohttp
-from typing import Optional, Literal
-import shutil
-import time
 
 ##################################################################################################################
 # BEGINNING OF SETUP VARIABLES
