@@ -13,41 +13,62 @@ import shutil
 import time
 
 ##################################################################################################################
-# Bot Code
+# BEGINNING OF SETUP VARIABLES
 ##################################################################################################################
-#
+
 # Input ID assigned to server owner's role
 OWNER_ROLE_ID = 1437183305266106558
+
 # Input ID assigned to admin role
 ADMIN_ROLE_ID = 1437182763093463101
+
 # Change to false to allow both admin and owner roles to whitelist users
 WHITELISTING_OWNER_ONLY = True
+
 # Change to false to allow both admin and owner roles to manually start server
 STARTING_OWNER_ONLY = True
+
 # Change to false to allow both admin and owner roles to manually restart server
 RESTARTING_OWNER_ONLY = True
+
 # Input your discord server's ID
 GUILD_ID = 1437180858367868950
+
 # Change path to your own server's whitelist file
 WHITELIST_FILE = ""
+
+# Input name of your start.sh file
+START_FILE = ""
+'''
+# Example of what the inside of your start.sh file should look like (the "#!/bin/bash" line at the top is required for bash to execute the command in the file):
+
+#!/bin/bash
+java -Xms1G -Xmx6G -jar fabric-server-mc.1.21.10-loader.0.17.3-launcher.1.1.0.jar nogui
+'''
+
+# Input directory that your start.sh file is located in (DO NOT INCLUDE FILE NAME)
+START_DIR = ""
+
 # Input your bot token
 TOKEN = ""
-#
-#
 
-#
-#--DO NOT CHANGE BOT WILL BREAK--#
-#
+##################################################################################################################
+# END OF SETUP VARIABLES
+##################################################################################################################
+
+
+
+
+
+##################################################################################################################
+# BOT CODE
+##################################################################################################################
+
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 print("Loaded commands at startup:", bot.tree.get_commands())
-#
-#--DO NOT CHANGE BOT WILL BREAK--#
-#
 
-##################################################################################################################
-# PRE-CONDITIONS
-##################################################################################################################
+
 def is_whitelisted(username: str):
     if not os.path.exists(WHITELIST_FILE):
         return False
@@ -133,7 +154,7 @@ async def restart(interaction: discord.Integration):
     await interaction.followup.send("Stopping server...", ephemeral=True)
     send_to_server(f"stop")
     await interaction.followup.send("Starting server...", ephemeral=True)
-    subprocess.Popen(["/bin/bash", "./start.sh"], cwd="/home/noahshinar/minecraft_servers/server1")
+    subprocess.Popen(["/bin/bash", START_FILE], cwd=START_DIR)
 
 ##################################################################################################################
 # STARTUP EVENTS
