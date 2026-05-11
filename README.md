@@ -9,8 +9,8 @@ I have only needed to use these three functions for my own server. If you requir
 
 **HOW TO USE: (Linux servers only)**
 1) Follow steps 1-3 of erdbeerbaerlp's guide to set up a discord bot: [https://erdbeerbaerlp.de/projects/discord-integration/quick-setup](url)
-   If you want the additional functions of erdbeerbaerlp's Discord Integrations mod follow steps 1-5
-   link to Discord Integrations mod: [https://modrinth.com/mod/dcintegration](url)
+   - If you want the additional functions of erdbeerbaerlp's Discord Integrations mod follow steps 1-5
+   - link to Discord Integrations mod: [https://modrinth.com/mod/dcintegration](url)
 3) Download serverbot.py and place the file in your minecraft server's directory
 4) In your terminal run the following commands (installation commands will vary slightly depending on your linux distrobution. The one used here is for Debian):
 ```
