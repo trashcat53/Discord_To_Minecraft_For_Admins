@@ -3,7 +3,8 @@
 - Manually start server
 - Manually restart server
 
-I have only needed to use these three functions fo rmy own server. If you require a function is missing from the list please submit a pull request.
+I have only needed to use these three functions for my own server. If you require a function that is missing from the list please submit a pull request.
+
 
 
 **HOW TO USE: (Linux servers only)**
