@@ -16,20 +16,22 @@ import time
 # Bot Code
 ##################################################################################################################
 #
-# Change to role ID assigned to owner
-OWNER_ROLE_ID = 1437183305266106558 
-#
-# Change to role ID assigned to admins
-ADMIN_ROLE_ID = 1437182763093463101 
-#
-# Change to your discord server's ID
-GUILD_ID = 1437180858367868950 
-#
-# Change path to your own whitelist file
-WHITELIST_FILE = "/home/noahshinar/minecraft_servers/server1/whitelist.json"
-#
-# Change path to your own bot token file
-TOKEN_FILE = "/home/noahs/Documents/DiscToServerBot/server1/DiscToServerBot/token.txt" 
+# Input ID assigned to server owner's role
+OWNER_ROLE_ID = 1437183305266106558
+# Input ID assigned to admin role
+ADMIN_ROLE_ID = 1437182763093463101
+# Change to false to allow both admin and owner roles to whitelist users
+WHITELISTING_OWNER_ONLY = True
+# Change to false to allow both admin and owner roles to manually start server
+STARTING_OWNER_ONLY = True
+# Change to false to allow both admin and owner roles to manually restart server
+RESTARTING_OWNER_ONLY = True
+# Input your discord server's ID
+GUILD_ID = 1437180858367868950
+# Change path to your own server's whitelist file
+WHITELIST_FILE = ""
+# Input your bot token
+TOKEN = ""
 #
 #
 
@@ -91,8 +93,11 @@ async def is_owner_and_admin(interaction: discord.Interaction):
 @bot.tree.command(name="whitelist", description="Add a Minecraft username to the whitelist")
 @app_commands.describe(username="Whitelist username")
 async def whitelist(interaction: discord.Interaction, username: str):
-    is_owner_and_admin()
-    # is_owner()
+
+    if not WHITELISTING_OWNER_ONLY:
+        is_owner_and_admin()
+    else:
+        is_owner()
 
     uuid = await get_uuid(username)
     if uuid is None:
@@ -107,29 +112,22 @@ async def whitelist(interaction: discord.Interaction, username: str):
 # START SERVER COMMAND
 @bot.tree.command(name="start", description="Start the Minecraft server")
 async def start(interaction: discord.Interaction):
-    # is_owner_and_admin()
-    is_owner()
+    if not STARTING_OWNER_ONLY:
+        is_owner_and_admin()
+    else:
+        is_owner()
 
     await interaction.response.defer(ephemeral=True)
     await interaction.followup.send("Starting server...", ephemeral=True)
     subprocess.Popen(["/bin/bash", "./start.sh"], cwd="/home/noahshinar/minecraft_servers/server1")
 
-# SAY COMMAND
-@bot.tree.command(name="say", description="/say command to say stuff as server cause it funi")
-@app_commands.describe(message="Text to send to server")
-async def say(interaction: discord.Interaction, message: str):
-    # is_owner_and_admin()
-    is_owner()
-
-    await interaction.response.defer(ephemeral=True)
-    send_to_server(f"say {message}")
-    await interaction.followup.send(f"Sent to server: `{message}`", ephemeral=True)
-
 # RESTART COMMAND
 @bot.tree.command(name="restart", description="restarts the server")
 async def restart(interaction: discord.Integration):
-    # is_owner_and_admin()
-    is_owner()
+    if not RESTARTING_OWNER_ONLY:
+        is_owner_and_admin()
+    else:
+        is_owner()
 
     await interaction.response.defer(ephemeral=True)
     await interaction.followup.send("Stopping server...", ephemeral=True)
@@ -137,22 +135,12 @@ async def restart(interaction: discord.Integration):
     await interaction.followup.send("Starting server...", ephemeral=True)
     subprocess.Popen(["/bin/bash", "./start.sh"], cwd="/home/noahshinar/minecraft_servers/server1")
 
-# SET SERVER STATUS CHANNEL COMMAND
-@bot.tree.command(name="statusChannel", description="Changes name of custom channel to server status")
-@app_commands.describe(channelID="Input channel ID")
-async def statusChannel(interaction: discord.Integration):
-    # is_owner_and_admin()
-    is_owner()
-    
-
-
 ##################################################################################################################
 # STARTUP EVENTS
 ##################################################################################################################
 @bot.event
 async def on_ready():
     print("Auto-starting Minecraft server...")
-    # subprocess.Popen(["/bin/bash", "./start.sh"], cwd="/home/noahshinar/minecraft_servers/server1")
 
     try:
         synced = await bot.tree.sync()
@@ -163,8 +151,6 @@ async def on_ready():
 ##################################################################################################################
 # BOT TOKEN
 ##################################################################################################################
-with open(TOKEN_FILE, "r") as f:
-    TOKEN = f.read().strip()
 bot.run(TOKEN)
 ##################################################################################################################
 # BOT TOKEN
