@@ -1,5 +1,3 @@
-Simple Python script that allows a server owner to easily control simple minecraft server actions from a bot in their discord server.
-
 **Capabilities:**
 - Whitelist users
 - Manually start server
