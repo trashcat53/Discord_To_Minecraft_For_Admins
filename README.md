@@ -19,7 +19,7 @@ sudo apt install -y python3 pip
 pip install discord.py aiohttp
 ```
 5) Open serverbot.py and follow instructions 1-11 located in ***SETUP VARIABLES***
-6) Manually start your server by running the following command in the directory of your server:
+6) Manually start your server by opening the terminal in the directory of your server and running the following command:
 ```
 ./serverbot.sh
 ```
